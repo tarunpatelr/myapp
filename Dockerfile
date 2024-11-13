@@ -19,11 +19,10 @@ RUN chmod -R 777 /work/tomcat
 WORKDIR /work/tomcat/apache-tomcat-11.0.1/conf
 RUN rm tomcat-users.xml
 RUN curl -O https://raw.githubusercontent.com/tarunpatelr/myapp/refs/heads/main/deploy/tomcat-users.xml
-
 RUN ADMIN_PWD=`tr -dc A-Za-z0-9 </dev/urandom | head -c 13;`
 RUN ROBOT_PWD=`tr -dc A-Za-z0-9 </dev/urandom | head -c 13;`
-RUN echo $ADMIN_PWD
-RUN echo $ROBOT_PWD
+RUN echo "admin pwd is $ADMIN_PWD"
+RUN echo "robot pwd is $ROBOT_PWD"
 RUN sed -i "s/ADMIN_PWD_PLACEHOLDER/$ADMIN_PWD/g" tomcat-users.xml
 RUN sed -i "s/ROBOT_PWD_PLACEHOLDER/$ROBOT_PWD/g" tomcat-users.xml
 
