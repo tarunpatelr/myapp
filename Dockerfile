@@ -13,6 +13,7 @@ RUN java -version
 WORKDIR /opt/tomcat/apache-tomcat-11.0.1/webapps
 RUN curl -O -L https://github.com/tarunpatelr/myapp/blob/main/deploy/myapp.war
 
+RUN useradd -ms /bin/bash tomcat-user
 RUN chown -R tomcat-user /opt/tomcat/apache-tomcat-11.0.1
 USER tomcat-user
 
