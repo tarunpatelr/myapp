@@ -24,7 +24,7 @@ ENV PATH $CATALINA_HOME/bin:$PATH
 EXPOSE 8080
 
 # Clean up unnecessary files
-RUN apt-get purge -y openjdk-11-jdk wget && \
+RUN apt-get purge -y openjdk-21-jdk wget && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /opt/tomcat/webapps/*
