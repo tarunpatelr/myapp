@@ -3,22 +3,20 @@ FROM openjdk:21
 MAINTAINER tarunpatelr@gmail.com
 LABEL authors="tarun"
 
-RUN mkdir /opt/tomcat/
+RUN mkdir /work/tomcat/
 
-WORKDIR /opt/tomcat
+WORKDIR /work/tomcat
 RUN curl -O https://dlcdn.apache.org/tomcat/tomcat-11/v11.0.1/bin/apache-tomcat-11.0.1.tar.gz
 RUN tar xvfz apache*.tar.gz
 RUN java -version
 
-RUN useradd -ms /bin/bash myuser
-
-RUN mv /opt/tomcat/apache-tomcat-11.0.1 /home/myuser/
-RUN chown -R myuser:myuser /home/myuser/apache-tomcat-11.0.1
-
-USER myuser
-WORKDIR /home/myuser/apache-tomcat-11.0.1/webapps
+WORKDIR /work/tomcat/apache-tomcat-11.0.1/webapps
 RUN curl -O -L https://github.com/tarunpatelr/myapp/blob/main/deploy/myapp.war
 
-ENV CATALINA_HOME /home/myuser/apache-tomcat-11.0.1
+RUN useradd -ms /bin/bash my-user
+RUN chown -R my-user /work/tomcat
 
-CMD ["/home/myuser/apache-tomcat-11.0.1/bin/catalina.sh", "run"]
+EXPOSE 8080
+
+USER my-user
+CMD ["/work/tomcat/apache-tomcat-11.0.1/bin/catalina.sh", "run"]
