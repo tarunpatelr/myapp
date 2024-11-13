@@ -3,7 +3,7 @@ FROM openjdk:21
 MAINTAINER tarunpatelr@gmail.com
 LABEL authors="tarun"
 
-RUN mkdir /work/tomcat/
+RUN mkdir -p /work/tomcat/
 
 WORKDIR /work/tomcat
 RUN curl -O https://dlcdn.apache.org/tomcat/tomcat-11/v11.0.1/bin/apache-tomcat-11.0.1.tar.gz
