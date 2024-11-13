@@ -13,10 +13,10 @@ RUN java -version
 WORKDIR /work/tomcat/apache-tomcat-11.0.1/webapps
 RUN curl -O -L https://github.com/tarunpatelr/myapp/blob/main/deploy/myapp.war
 
-RUN useradd -ms /bin/bash my-user
-RUN chown -R my-user /work/tomcat
+RUN useradd -ms /bin/bash myuser
+RUN chown -R 777 /work/tomcat
 
 EXPOSE 8080
 
-USER my-user
+USER myuser
 CMD ["/work/tomcat/apache-tomcat-11.0.1/bin/catalina.sh", "run"]
