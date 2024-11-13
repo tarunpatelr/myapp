@@ -1,21 +1,33 @@
-FROM centos
+# Use a minimal base image
+FROM ubuntu:20.04
 
-MAINTAINER hello@gritfy.com
+# Set the Tomcat version
+ENV TOMCAT_VERSION 11.0.1
 
-LABEL authors="tarun"
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y openjdk-23-jdk wget && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /opt/tomcat/
+# Download and extract Tomcat
+RUN wget -O /tmp/tomcat.tar.gz https://dlcdn.apache.org/tomcat/tomcat-11/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
+    tar xf /tmp/tomcat.tar.gz -C /opt && \
+    rm /tmp/tomcat.tar.gz && \
+    mv /opt/apache-tomcat-${TOMCAT_VERSION} /opt/tomcat
 
-WORKDIR /opt/tomcat
-RUN curl -O https://dlcdn.apache.org/tomcat/tomcat-11/v11.0.1/bin/apache-tomcat-11.0.1.tar.gz
-RUN tar xvfz apache*.tar.gz
-RUN mv apache-tomcat-11.0.1/* /opt/tomcat/.
-RUN yum -y install java
-RUN java -version
+# Set environment variables
+ENV CATALINA_HOME /opt/tomcat
+ENV PATH $CATALINA_HOME/bin:$PATH
 
-WORKDIR /opt/tomcat/webapps
-RUN curl -O -L https://github.com/tarunpatelr/myapp/blob/main/deploy/myapp.war
-
+# Expose Tomcat port
 EXPOSE 8080
 
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+# Clean up unnecessary files
+RUN apt-get purge -y openjdk-11-jdk wget && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /opt/tomcat/webapps/*
+
+# Start Tomcat
+CMD ["catalina.sh", "run"]
