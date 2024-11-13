@@ -11,8 +11,7 @@ RUN tar xvfz apache*.tar.gz
 RUN java -version
 
 WORKDIR /work/tomcat/apache-tomcat-11.0.1/webapps
-RUN curl -O -L https://github.com/tarunpatelr/myapp/blob/main/deploy/myapp.war
-RUN jar xvf myapp.war
+RUN curl -O https://raw.githubusercontent.com/tarunpatelr/myapp/refs/heads/main/deploy/myapp.war
 
 RUN useradd -ms /bin/bash myuser
 RUN chmod -R 777 /work/tomcat
