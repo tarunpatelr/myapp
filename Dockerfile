@@ -16,6 +16,10 @@ RUN curl -O https://raw.githubusercontent.com/tarunpatelr/myapp/refs/heads/main/
 RUN useradd -ms /bin/bash myuser
 RUN chmod -R 777 /work/tomcat
 
+WORKDIR /work/tomcat/apache-tomcat-11.0.1/conf
+RUN rm tomcat-users.xml
+RUN curl -O https://raw.githubusercontent.com/tarunpatelr/myapp/refs/heads/main/deploy/tomcat-users.xml
+
 EXPOSE 8080
 
 USER myuser
