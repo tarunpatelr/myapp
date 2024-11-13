@@ -19,6 +19,12 @@ RUN chmod -R 777 /work/tomcat
 WORKDIR /work/tomcat/apache-tomcat-11.0.1/conf
 RUN rm tomcat-users.xml
 RUN curl -O https://raw.githubusercontent.com/tarunpatelr/myapp/refs/heads/main/deploy/tomcat-users.xml
+RUN sed -i 's/ADMIN_PWD_PLACEHOLDER/'tr -dc A-Za-z0-9 </dev/urandom | head -c 13; echo'/g' tomcat-users.xml
+RUN sed -i 's/ROBOT_PWD_PLACEHOLDER/'tr -dc A-Za-z0-9 </dev/urandom | head -c 13; echo'/g' tomcat-users.xml
+
+WORKDIR /work/tomcat/apache-tomcat-11.0.1/webapps/manager/META-INF
+RUN rm context.xml
+RUN curl -O https://raw.githubusercontent.com/tarunpatelr/myapp/refs/heads/main/deploy/context.xml
 
 EXPOSE 8080
 
